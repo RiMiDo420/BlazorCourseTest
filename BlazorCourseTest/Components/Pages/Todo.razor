@@ -1,0 +1,47 @@
+﻿@page "/todo"
+@rendermode InteractiveServer
+<h3>Todo (@todos.Count(a=>!a.Completed))</h3>
+
+<ul>
+    @for(int i = 0; i<todos.Count; i++)
+    {
+        <li>
+            <input type="checkbox" @bind="todos[i].Completed" />
+            <input @bind="todos[i].Name"/>
+            @if (editMode)
+            {
+                //Crashes
+                <button class="btn btn-danger" @onclick = "() => todos.RemoveAt(i)">Delete</button>
+            }
+        </li>
+    }
+</ul>
+
+<h3>Add new Item</h3>
+<input @bind="InputText">Add new item...</input>
+<button class="btn btn-primary" @onclick="AddTodo">Add item</button>
+
+<button class="btn btn-primary" @onclick="ToggleEditMode">Edit</button>
+
+@code {
+    string InputText { get; set; }
+    List<TodoItem> todos = new();
+
+    void AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(InputText))
+        {
+            todos.Add(new TodoItem());
+            todos[todos.Count - 1].Name = InputText;
+            InputText = "";
+        }
+    }
+
+    bool editMode { get; set; }
+    void ToggleEditMode()
+    {
+        editMode = !editMode;
+    }
+}
+
+

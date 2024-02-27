@@ -1,0 +1,15 @@
+﻿@page "/input-message";
+@rendermode InteractiveServer
+<h3>InputMessage</h3>
+
+<input @onchange="InputChanged" />
+<p>@message</p>
+
+@code {
+    string message = "";
+
+    void InputChanged(ChangeEventArgs e)
+    {
+        message = (string)e.Value;
+    }
+}
